@@ -7,5 +7,5 @@ Single cell RNA-Seq workflows are inherently similar to bulk RNA-Seq workflows. 
 
 The steps below cover a semi-generic workflow. The workflow has numerous steps, so the scripts and code for each section is stored in a subdirectory listed to the left of the workflow.
 
-![Alt text](?raw=true)
+![Alt text](https://github.com/ctrhodes/scrna-seq/blob/master/scRNSseq_workflow.png?raw=true)
 
