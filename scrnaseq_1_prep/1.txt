@@ -1,3 +1,0 @@
-scrnaseq_prep
-scrnaseq_map
-scrnaseq_bio
