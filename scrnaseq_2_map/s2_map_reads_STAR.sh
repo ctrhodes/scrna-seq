@@ -6,6 +6,7 @@ OUT_DIR="/home/rhooads/sra/aligned/"
 
 INDEX_DIR="/home/rhooads/STAR_genomes"
 
+#genome building and alignment both require at least n1-standard-8 (8 vCPUs, 30 GB memory) on google cloud. Set up scripts on n1-standard-1, then restart with n1-standard-8 for alignment.
 THREADS=8
 
 #RNA-Seq otfen uses paired reads such as the following examples in our $IN_DIR:
