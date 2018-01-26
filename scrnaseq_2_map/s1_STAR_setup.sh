@@ -33,13 +33,14 @@ sudo apt-get install rna-star
 mkdir ~/genomes
 cd ~/genomes
 
-download genome sequence (fasta) and annotation (gtf). doesn't matter which you use (i.e. ensembl, ucsc, etc) just make sure you use the same source for fastq and gtf. I am using ensembl for everything:
+#download genome sequence (fasta) and annotation (gtf). GTF is technically a GFF extension. So when programs require GFF file (as with STAR genome assemly), often they mean GTF. I personally prefer GTF over older GFF formats
+#doesn't matter which source you use for genome/annotation (i.e. ensembl, ucsc, nih, etc) just make sure you use the same source for fastq and gtf. I am using ensembl for everything:
 
 wget http://labshare.cshl.edu/shares/gingeraslab/www-data/dobin/STAR/STARgenomes/ENSEMBL/homo_sapiens/ENSEMBL.homo_sapiens.release-83/Homo_sapiens.GRCh38.dna.primary_assembly.fa
 
 wget http://labshare.cshl.edu/shares/gingeraslab/www-data/dobin/STAR/STARgenomes/ENSEMBL/homo_sapiens/ENSEMBL.homo_sapiens.release-83/Homo_sapiens.GRCh38.83.gtf
 
-Also, the demo project uses 92 ERCC spike-ins, so we have to add the sequence and annotation entries to the files:
+#Also, the demo project uses 92 ERCC spike-ins, so we have to add the sequence and annotation entries to the files:
 
 git clone https://github.com/NCBI-Hackathons/HASSL_Homogeneous_Analysis_of_SRA_rnaSequencing_Libraries.git
 
