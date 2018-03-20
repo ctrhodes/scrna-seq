@@ -1,5 +1,0 @@
-pkg = names(sessionInfo()$otherPkgs)
-pkgs = paste('package:', pkg, sep = "")
-lapply(pkgs, detach, character.only = TRUE, unload = TRUE)
-rm(list = ls(all=TRUE))
-print("test")
