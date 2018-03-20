@@ -1,0 +1,7 @@
+﻿# Single Cell RNA-Seq Workflow in bash
+
+The scripts in this repository perform the basic steps involved in aligning and analyzing single cell RNA-Seq experiments. using uses bash scripts to download data, do get QC metrics, do read alignments and transcript quantification.
+
+A quick word about aligners. During next-generation sequencing (NGS) experiments, reads produced by a sequencer are often aligned to a reference sequence, such as a known genome. During RNA-Seq and scRNA-Seq experiments, if the organism from which you obtained RNA is well characterized such as human or mouse, the NGS reads are often aligned to a transcriptome using a variety of alignment algorithms. Historically, aligners such as bowtie/tophat or STAR alignment followed by cufflinks transcript assembly have been used. Currently, "psuedo-aligners" such as kallisto, salmon or sailfish are often preferred to quantify transcript abundance prior to making inferences at the gene level. The interest in pseudo-aligners is due to their fast speed, low memory requirements and high accuracy. I will focus on kallisto, as that is my personal preference. However, kallisto, salmon, sailfish, STAR/cufflinks, and tophat/cufflinks all perform about the same and are generally interchangeable in most pipelines. Importantly, if you are not familiar with any of these newer alignment programs, don't worry - I have included easy to use commands in my scripts.
+
+![Alt text](https://github.com/ctrhodes/scRNA-seq/blob/master/scRNA-expanded.png?raw=true)

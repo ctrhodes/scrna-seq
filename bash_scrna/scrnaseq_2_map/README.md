@@ -1,0 +1,3 @@
+﻿This subdirectory contains scripts to align cDNA derived Illumina reads to a reference transcriptome. I prefer kallisto (and associated sleuth) packages for alignment for both single cell and bulk RNA-Seq. Kallisto has a nice R wrapper, in case you prefer the R environment over UNIX-based command line tools. The current repository only contains bash scripts for alignment steps.
+
+Finally, while pseudo-aligners (i.e. kallisto, salmon, etc) are becoming more popular, well-known aligners such as STAR or tophat/bowtie are well-known, robust tools that are used in many existing pipelines. To assist in quickly performing RNA-Seq, I have added bash scripts to perform alignment and read abundance with STAR/HT-Seq or transcript quantification with kallisto.
