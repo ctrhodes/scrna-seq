@@ -206,6 +206,7 @@ setwd(file.path(mainDir, "kallisto"))
 list.files()
 system( "kallisto index -i refMrna_ercc92.idx refMrna_ercc92.fa" )
 
+#alternatively, use runKalliston in scater package
 for (i in 1:length(list.files()) {
-  system( "kallisto quant" )
+  system( "kallisto quant -i $INDEX_DIR/refMrna_ercc92.idx -o $OUT_DIR/${describer} -b 10 ${describer}$RD1_SUFFIX.fastq.gz ${describer}$RD2_SUFFIX.fastq.gz" )
 }
