@@ -180,7 +180,9 @@ if ( grepl("\\.zip", basename(URL)) ) {
 # file.delete(basename(URL))
 setwd(mainDir)
 list.files()
-mrna_URL = "http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/mrna.fa.gz"
+
+#we are using the refSeq mRNA fasta file to reduce memory requirements. if you have enough memory, try mRNA.fa.gz
+mrna_URL = "http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/refMrna.fa.gz"
 mrna_URL
 download.file(mrna_URL, destfile=basename(mrna_URL), method="libcurl")
 require(R.utils)
@@ -196,11 +198,14 @@ basename(ercc_URL)
 
 list.files()
 getwd()
-file.copy("mrna.fa", "hg38_ercc92.fa")
-file.append("hg38_ercc92.fa", "ERCC92.fa")
-file.move("hg38_ercc92.fa", file.path(mainDir, "kallisto"))
+file.copy("refMrna.fa", "refMrna_ercc92.fa")
+file.append("refMrna_ercc92.fa", "ERCC92.fa")
+file.move("refMrna_ercc92.fa", file.path(mainDir, "kallisto"))
 
 setwd(file.path(mainDir, "kallisto"))
 list.files()
-system( "kallisto index -i hg38_ercc92.idx hg38_ercc92.fa" )
+system( "kallisto index -i refMrna_ercc92.idx refMrna_ercc92.fa" )
 
+for (i in 1:length(list.files()) {
+  system( "kallisto quant" )
+}
