@@ -119,7 +119,7 @@ dump_prefix = gsub("\\.sra", "", basename(dumps))
 dump_prefix
 for (i in 1:length(dump_prefix)) {
 #  print(dump_prefix[i])
-  cmd = paste0("fastq-dump -I --split-files ", dump_prefix[i])
+  cmd = paste0("fastq-dump -I --split-3 ", dump_prefix[i])
   print(cmd)
   system( cmd )
 }
