@@ -55,37 +55,19 @@ remaining
 # head(ri)
 getSRAfile( c(remaining), sra_con, fileType ='sra')
 
-##
-# system list files and get file size
-# move small files to a dir
-# big files to diff dir
-
-# # fix later
-# while (length(remaining) > length(downloads) {
-#   getSRAinfo( c("remaining"), sra_con, sraType = "sra" )
-#   remove files with size 0
-# rs = listSRAfile( c("SRP041736"), sra_con, fileType ='sra')
-# head(rs)
-# downloads = gsub("\\.sra", "", list.files(sra_path))
-# downloads
-# remaining = setdiff(rs$run, downloads)
-# remaining
-# }
-
-# sra download:
-# add non-zero exit status try as well as while loop 
-# while (length(remaining) > length(downloaded))
-
-
-################
 # Move small files to "small file" dir
+if( !dir.exists(file.path(sra_path, "low_reads")) ) {
+  dir.create(file.path(sra_path, "low_reads"))
+} else {
+  cat("low_reads directory already exists!")
+}
+
 # Move large files to "large file" dir
-
-
-
-sra_size
-max(sra_size)
-file.size(sras)
+if( !dir.exists(file.path(sra_path, "high_reads")) ) {
+  dir.create(file.path(sra_path, "high_reads"))
+} else {
+  cat("high_reads directory already exists!")
+}
 
 require(gdata)
 library(filesstrings)
@@ -97,7 +79,7 @@ sra_size
 humanReadable(sra_size, standard = "IEC")
 size_index = which(humanReadable(small_files, standard = "IEC") < "40 MiB")
 small_files = names(small_files[size_index])
-file.move( small_files, paste0(sra_dir, "/", "newdir") )
+file.move( small_files, file.path(sra_path, "low_reads" )
 
 
 #########
@@ -126,19 +108,20 @@ if ( grepl("\\.zip", basename(URL)) ) {
   untar(basename(URL))
 }
 
-file.move( file.path(sra_path, "sra", "sratoolkit.2.9.0-win64", "bin", "fastq-dump.exe"), 
+file.move( file.path(sra_path, "sratoolkit.2.9.0-win64/bin", "fastq-dump.exe"), 
           file.path(sra_path, "low_reads")
 
 setwd(file.path(sra_path, "low_reads"))
 list.files()
 dumps = Sys.glob(file.path(sra_path, "low_reads", "*.sra"))
+dumps
 dump_prefix = gsub("\\.sra", "", basename(dumps))
 dump_prefix
 for (i in 1:length(dump_prefix)) {
 #  print(dump_prefix[i])
-  cmd = paste0("fastq-dump --split-files ", dump_prefix[i])
+  cmd = paste0("fastq-dump -I --split-files ", dump_prefix[i])
   print(cmd)
-  system( paste0("fastq-dump ", dump_prefix[i]) )
+  system( cmd )
 }
 
 
