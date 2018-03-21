@@ -133,8 +133,11 @@ if( !dir.exists(file.path(mainDir, "fastq")) ) {
 
 library(filesstrings)
 
-fastqs = Sys.glob(file.path(sra_path, "low_reads", "*fastq"))
-
+# we only want to move files ending in either _1.fastq or _2.fastq. All other fastq files contain only orphaned reads that
+# are not part of a matched pair
+fastq1 = Sys.glob(file.path(sra_path, "low_reads", "*_1.fastq"))
+fastq2 = Sys.glob(file.path(sra_path, "low_reads", "*_2.fastq"))
+fastqs = c(fastq1, fastq2)
 file.move( fastqs, file.path(mainDir, "fastq") )
 
 #########
