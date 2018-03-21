@@ -126,8 +126,8 @@ if ( grepl("\\.zip", basename(URL)) ) {
   untar(basename(URL))
 }
 
-file.move( "C:\\Users\\LinLab\\Documents\\working\\sra\\sratoolkit.2.9.0-win64\\bin\\fastq-dump.exe", 
-           paste0(sra_path, "/", "low_reads") )
+file.move( file.path(sra_path, "sra", "sratoolkit.2.9.0-win64", "bin", "fastq-dump.exe"), 
+          file.path(sra_path, "low_reads")
 
 setwd(file.path(sra_path, "low_reads"))
 list.files()
@@ -135,7 +135,9 @@ dumps = Sys.glob(file.path(sra_path, "low_reads", "*.sra"))
 dump_prefix = gsub("\\.sra", "", basename(dumps))
 dump_prefix
 for (i in 1:length(dump_prefix)) {
-  print(dump_prefix[i])
+#  print(dump_prefix[i])
+  cmd = paste0("fastq-dump --split-files ", dump_prefix[i])
+  print(cmd)
   system( paste0("fastq-dump ", dump_prefix[i]) )
 }
 
