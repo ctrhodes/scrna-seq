@@ -140,6 +140,54 @@ fastq2 = Sys.glob(file.path(sra_path, "low_reads", "*_2.fastq"))
 fastqs = c(fastq1, fastq2)
 file.move( fastqs, file.path(mainDir, "fastq") )
 
+# for windows only, check if perl is installed and in PATH
+# linux and mac already have perl in path
+is_perl_installed = function(){
+tryCatch({system("perl -v", intern = TRUE)}, 
+         error=function(e){cat("ERROR : perl not installed or not in PATH \n
+                               Either add perl to PATH with add_perl_path() \n
+                               Or install perl with install_perl()",conditionMessage(e), "\n")})
+}
+is_perl_installed()
+
+add_perl_path = function(){
+  if ( grepl("perl", shell("PATH", intern = TRUE)) ) {
+    print("perl already in PATH!")
+  } else {
+  loc = shell("where perl", intern = TRUE)
+  CMD = paste0( "set PATH=", loc,";%PATH%" )
+  shell(CMD)
+  }
+}
+add_perl_path()
+
+install_perl <- function() { 
+  n <- readline(prompt="Enter install type; i for interactive, s for silent: ")
+  if(!grepl("^[iIsS]$",n))
+  {
+    return(install_type())
+  }
+  
+  if( Sys.info()['sysname'] == "Windows" ) {
+    URL = "http://strawberryperl.com/download/5.26.1.1/strawberry-perl-5.26.1.1-64bit.msi"
+    if( ! file.exists(basename(URL)) ) {
+      download.file(URL, destfile=basename(URL), method="libcurl", mode="wb")
+      }
+    }
+  
+  if ((n == "i") | (n == "I")) {
+    CMD = paste0("msiexec.exe /i ", basename(URL))
+    print(CMD)
+    shell( CMD )
+  } else {
+    CMD = paste0("msiexec.exe /a ", basename(URL), " /qb /norestart /log strawberry.log")
+    print(CMD)
+    shell( CMD )
+  }
+}
+install_perl()
+
+
 #########
 # Download transcriptome and kallisto aligner
 
