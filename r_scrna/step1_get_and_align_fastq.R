@@ -11,8 +11,22 @@ rm(list = ls(all=TRUE))
 # install.packages("RCurl")
 
 library(RCurl)
-#options(download.file.method="libcurl")
 library(SRAdb)
+
+path.expand("~")
+setRelWd <- function(rel_path){
+  curr_dir <- getwd()
+  abs_path <- file.path(curr_dir,rel_path)
+  if(dir.exists(abs_path)){
+    setwd(abs_path)
+  }
+  else
+  {
+    warning('Directory does not exist. Please create it first.')
+  }
+  
+}
+
 mainDir = setwd("~/working")
 mainDir = setwd("~/working")
 mainDir
@@ -188,10 +202,61 @@ install_perl <- function() {
 install_perl()
 
 
+#
+# install and run fastqc on windows
+# if you are using linux or mac, just use fastqcr package
+fqc_dir = "https://www.bioinformatics.babraham.ac.uk/projects/fastqc/"
+if( Sys.info()['sysname'] == "macOS" ) {
+  URL = paste0(fqc_dir, "fastqc_v0.11.7.dmg")
+} else {
+  URL = paste0(fqc_dir, "fastqc_v0.11.7.zip")
+}
+
+URL
+
+if ( grepl("\\.zip", basename(URL)) ) {
+  download.file(URL, destfile=basename(URL), method="libcurl")
+  unzip(basename(URL))
+} else {
+  download.file(URL, destfile=basename(URL), method="libcurl")
+#  untar(basename(URL))
+}
+
+# run from directory containing fastq files
+
+fastqc_dir = file.path( path.expand("~"), "FastQC")
+
+
+# either make symbolic link to fastqc dir (below), add .pl to fastqc extension, or add fastq dir as fcq() argument
+# add input function in fqc() to ask user which to do
+setwd("~/working/fastq")
+getwd()
+#list.files()
+fqc = function (fq_dir = getwd(), qc_dir = NULL, fastqc_dir = getwd()) {
+  if (is.null(qc_dir)) 
+    qc_dir <- file.path(fq_dir, "FASTQC")
+  if( !dir.exists(qc_dir)) {
+    dir.create(qc_dir)
+  } else {
+    cat("FASTQC directory already exists!")
+  }
+  files = Sys.glob(file.path(fq_dir, "*.fastq"))
+  for (i in 1:length(files)){
+    CMD = paste0( "perl ", file.path(fastqc_dir, "fastqc"), " ",  files[i], " --outdir ", qc_dir)
+#    print(CMD)
+    shell(CMD)
+  }
+}
+
+
+fqc(fastqc_dir = fastqc_dir)
+
+getwd()
+setwd("working/fastq/")
+setwd("working/fastq/")
+
 #########
 # Download transcriptome and kallisto aligner
-
-
 list.files()
 kall_dir = "https://github.com/pachterlab/kallisto/releases/download/v0.44.0/"
 if( Sys.info()['sysname'] == "Windows" ) {
